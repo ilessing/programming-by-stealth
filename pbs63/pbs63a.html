@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+                
+    <!-- Include Bootstrap 4 CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    
+    <!-- Include Font Awesome 4 -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/9437c02941.css">
+                
+    <title>PBS 63 A — Buttons</title>
+</head>
+<body>
+<header class="container mt-5">
+    <div class="jumbotron">
+        <h1 class="display-4">Buttons!<br><small class="text-muted">PBS 63 Example A</small></h1>
+
+        <p class="lead">A demonstration of Bootstrap Buttons.</p>
+    </div>
+</header>
+<main class="container mb-5">
+    <div class="row">
+        <div class="col">
+            <h1>Regular Buttons</h1>
+            <p>
+                <button class="btn btn-primary">Primary</button>
+                <button class="btn btn-secondary">Secondary</button>
+                <button class="btn btn-info">Informational</button>
+                <button class="btn btn-success">Success</button>
+                <button class="btn btn-warning">Warning</button>
+                <button class="btn btn-danger">Danger</button>
+                <button class="btn btn-light">Light</button>
+                <button class="btn btn-dark">Dark</button>
+            </p>
+            
+            <h1>Outlined Buttons</h1>
+            <p>
+                <button class="btn btn-outline-primary">Primary</button>
+                <button class="btn btn-outline-secondary">Secondary</button>
+                <button class="btn btn-outline-info">Informational</button>
+                <button class="btn btn-outline-success">Success</button>
+                <button class="btn btn-outline-warning">Warning</button>
+                <button class="btn btn-outline-danger">Danger</button>
+                <button class="btn btn-outline-light">Light</button>
+                <button class="btn btn-outline-dark">Dark</button>
+            </p>
+            
+            <h1>Button Sizes</h1>
+            <p>
+                <button class="btn btn-secondary btn-sm">Small</button>
+                <button class="btn btn-secondary">Regular</button>
+                <button class="btn btn-secondary btn-lg">Large</button>
+            </p>
+        
+            <h1>A Link as a Button</h1>
+            <p>
+                This apparent secondary button is actually an <code>&lt;a&gt;</code> tag!
+                <a class="btn btn-secondary" href="http://getbootstrap.com/docs/4.1/components/buttons/" taget="_blank" rel="noopener">More ...</a>
+            </p>
+        
+            <h1>A Button as a Link</h1>
+            <p>
+                This apparent link is actually a <code>&lt;button&gt;</code> tag!
+                <button class="btn btn-link" id="btn_as_link">More ...</button>
+            </p>
+            
+            <h1>Button Groups</h1>
+            <p>
+                Basic share links as a button group:
+                <span class="btn-group border border-primary p-3" role="group" aria-label="share">
+                    <a class="btn btn-secondary" href="javascript:void(0);">Twitter</a>
+                    <a class="btn btn-secondary" href="javascript:void(0);">Facebook</a>
+                    <a class="btn btn-secondary" href="javascript:void(0);">Google+</a>
+                </span>
+            </p>
+            <p>
+                Share links with glyph icons as a small button group:
+                <span class="btn-group btn-group-sm" role="group" aria-label="share">
+                    <a class="btn btn-secondary" href="javascript:void(0);">
+                        <i class="fa fa-twitter" aria-hidden></i>
+                        <span class="sr-only">Twitter</span>
+                    </a>
+                    <a class="btn btn-secondary" href="javascript:void(0);">
+                        <i class="fa fa-facebook" aria-hidden></i>
+                        <span class="sr-only">Facebook</span>
+                    </a>
+                    <a class="btn btn-secondary" href="javascript:void(0);">
+                        <i class="fa fa-google-plus" aria-hidden></i>
+                        <span class="sr-only">Google+</span>
+                    </a>
+                </span>
+            </p>
+            
+            <h1>A Button Toolbar</h1>
+            <div class="btn-toolbar" role="toolbar" aria-label="format">
+                <div class="btn-group mr-2" role="group" aria-label="font style">
+                    <button class="btn btn-secondary">
+                        <i class="fa fa-bold" aria-hidden></i>
+                        <span class="sr-only">Bold</span>
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="fa fa-italic" aria-hidden></i>
+                        <span class="sr-only">Italic</span>
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="fa fa-underline" aria-hidden></i>
+                        <span class="sr-only">Underline</span>
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="fa fa-strikethrough" aria-hidden></i>
+                        <span class="sr-only">Strikethrough</span>
+                    </button>
+                </div>
+                <div class="btn-group" role="group" aria-label="baseline">
+                    <button class="btn btn-secondary">
+                        <i class="fa fa-superscript" aria-hidden></i>
+                        <span class="sr-only">Superscript</span>
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="fa fa-subscript" aria-hidden></i>
+                        <span class="sr-only">Subscript</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Include Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<!-- Add our own JavaScript code -->
+<script type="text/javascript">
+// add a document ready handler
+$(function(){
+    // Add add an event handler to the link  button
+    $('#btn_as_link').click(function(){
+        window.alert("sorry, I don't have anything more!");
+    });
+});
+</script>
+</body>
+</html>

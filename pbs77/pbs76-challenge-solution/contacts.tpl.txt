@@ -1,0 +1,14 @@
+<nav class="col-12 col-sm-6 col-md-12 mb-3 p-2">
+	<h1 class="h5 text-md-center">Contact {{name.first}}</h1>
+	<div class="d-flex flex-column flex-md-row flex-md-wrap justify-content-md-between">
+		{{# contactMethods}}
+		<div class="p-1">
+			<div class="d-none d-md-block text-center h1">
+				{{> icon}}
+			</div>
+			<span class="d-inline-block d-md-none" style="width: 1.5em;">{{> icon}}</span>
+			<span class="d-md-block text-md-center">{{> link}}</span>
+		</div>
+		{{/ contactMethods}}
+	</div>
+</nav>

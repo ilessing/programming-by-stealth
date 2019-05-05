@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8" />
+				
+	<!-- Include Bootstrap 4 CSS -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	
+	<!-- Include Font Awesome 5 -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	
+	<title>PBS 76 — Challenge</title>
+</head>
+<body>
+
+<!-- The Page header (a Jumbotron) -->
+<header class="container mt-5">
+	<div class="jumbotron">
+		<h1 class="display-4">Contact the Hosts<br><small class="text-muted">PBS 76 Challenge</small></h1>
+
+		<p class="lead">Bart's first sample solution for the extra credit for the challenge set in <a href="https://www.bartbusschots.ie/s/2019/04/20/pbs-76-of-x-ajax-with-jquery/" target="_blank" rel="noopener">instalment 76</a> of the <a href="https://bartb.ie/pbs" target="_blank" rel="noopener">Programming by Stealth series</a>.</p>
+	</div>
+</header>
+
+<!-- The main page body -->
+<main class="container mb-5">
+	<div class="row mb-4">
+		<div class="col">
+			<p>You can use the links below to contact the hosts of the Programming by Stealth podcast series.</p>
+			<div class="container">
+				<div class="row" id="contact_cards"></div>
+			</div>
+		</div>
+	</div>
+</main>
+
+<!-- Include Bootstrap JavaScript from CDNs -->
+<script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<!-- Include Mustache.js from a CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js" integrity="sha256-srhz/t0GOrmVGZryG24MVDyFDYZpvUH2+dnJ8FbpGi0=" crossorigin="anonymous"></script>
+
+<!-- This Page's Event handlers -->
+<script type="text/javascript">
+	// a placeholder for the data in the global scope
+	var data = {};
+		
+	// define any needed partials
+	const partials = {
+		icon: '<i class="{{{icon.classes}}}" title="{{{icon.title}}}" aria-hidden="true"></i><span class="sr-only">{{{icon.title}}}</span>',
+		link: '<a href="{{{link.url}}}" target="_blank" rel="noopener">{{link.text}}</a>'
+	};
+	
+	// a placeholder for the view objects
+	var people = [];
+
+	// document ready handler
+	$(function(){
+		// the Bootstrap row to insert the contact cards into
+		const $contactCardHolder = $('#contact_cards');
+		
+		// a helper function to show an AJAX error
+		const showAJAXError = function(){
+			$contactCardHolder.append($('<div>').addClass('col-12 text-danger').text('AJAX ERROR'));
+		};
+		
+		// fetch the data from JSON file via AJAX and if successful,
+		// build the view objects
+		$.ajax({
+			url: './people.json.txt',
+			method: 'GET',
+			dataType: 'json', // the data is in JSON format
+			error: showAJAXError,
+			success: function(parsedData){
+				// store the parsed data from the file into the global variable
+				data = parsedData;
+				
+				// inject helper functions for generating pretty values
+				// and URLs for each contact type into the data structure
+				const passthrough = (val)=>{ return val; };
+				data.prettyValueGenerators = {
+					"email": passthrough,
+					"facebook": (val)=>{ return val.replace(/^http(?:s)?[:]\/\/www.facebook.com\//, ''); },
+					"flickr": passthrough,
+					"slack": passthrough,
+					"stackOverflow": (val)=>{ return val.replace(/^http(?:s)?[:]\/\/stackoverflow[.]com\/users\/\d+\/(.+)[?]tab=profile$/, '$1'); },
+					"twitter": (val)=>{ return `@${val}`; },
+					"url": (val)=>{ return val.replace(/^http(?:s)?[:]\/\//, '').replace(/\/$/, ''); }
+				};
+				data.urlGenerators = {
+					"email": (val)=>{ return `mailto:${val}`; },
+					"facebook": passthrough,
+					"flickr": (val)=>{ return `https://flickr.com/people/${val}`; },
+					"slack": (val)=>{ return `https://${val}.slack.com/`; },
+					"stackOverflow": passthrough,
+					"twitter": (val)=>{ return `https://twitter.com/${val}`; },
+					"url": passthrough
+				};
+				
+				// build the view objects
+				for(const uname of Object.keys(data.people).sort()){
+					const person = {
+						name: data.people[uname].name,
+						contactMethods: []
+					};
+					for(const contactName of Object.keys(data.people[uname].contact).sort()){
+						const contactVal = data.people[uname].contact[contactName];
+						person.contactMethods.push({
+							name: contactName,
+							value: contactVal,
+							link: {
+								url: data.urlGenerators[contactName](contactVal),
+								text: data.prettyValueGenerators[contactName](contactVal)
+							},
+							icon: {
+								classes: data.contactIcons[contactName],
+								title: contactName
+							}
+						});
+					}
+					people.push(person);
+				}
+				
+				// fetch the template via AJAX and if successful, render the cards
+				$.ajax({
+					url: './contacts.tpl.txt',
+					method: 'GET',
+					dataType: 'text', // the template is a string
+					error: showAJAXError,
+					success: function(contactTpl){
+						// render the contact cards
+						for(const person of people){
+							$contactCardHolder.append(Mustache.render(
+								contactTpl, // the template, passed as first arg
+								person, // the view
+								partials // the partials
+							));
+						}
+					}
+				});
+			}
+		});
+		
+		
+		
+		
+		
+	});
+</script>
+
+</body>
+</html>

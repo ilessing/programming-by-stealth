@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8" />
+				
+	<!-- Include Bootstrap 4 CSS -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	
+	<!-- Include Font Awesome 5 -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	
+	<title>PBS 77a — Callback Demo</title>
+</head>
+<body>
+
+<!-- The container for the Toasts -->
+<div id="toast_rack" aria-live="polite" class="position-fixed" style="z-index: 999; top: 10px; right: 10px;"></div>
+
+<!-- The template for the Toasts -->
+<script type="text/html" id="toast_tpl">
+	<div class="toast" role="status" aria-atomic>
+		<div class="toast-header">
+			<strong>{{title}}</strong>
+		</div>
+		<div class="toast-body">{{message}}</div>
+	</div>
+</script>
+
+<!-- The Page header (a Jumbotron) -->
+<header class="container mt-5">
+	<div class="jumbotron">
+		<h1 class="display-4">PBS 77a<br><small class="text-muted">Callback Demo</small></h1>
+
+		<p class="lead">A JavaScript <em>'callbacks'</em> demo for instalment 77 of the <a href="https://bartb.ie/pbs" target="_blank" rel="noopener">Programming by Stealth series</a>.</p>
+	</div>
+</header>
+
+<!-- The main page body -->
+<main class="container mb-5">
+	<div class="row mb-4">
+		<div class="col">
+			<p>This page is designed to be used as an acompaniment to PBS 77. It defines the various sample functions and variables used in that instalments examples. Open a JavaScript terminal on this page to play along!</p>
+			
+			<p>The page defines the following:</p>
+			<dl>
+				<dt><code>peopleObjects</code></dt>
+				<dd>An array of objects representing people, each indexed by the keys <code>firstName</code>, <code>surname</code>, <code>displayName</code>, <code>email</code>, <code>url</code> &amp; <code>twitter</code></dd>
+				<dt><code>saySomething(something)</code></dt>
+				<dd>A function to render a message (passed as the first argument) as a <em>toast</em>.</dd>
+				<dt><code>doSomethingRandom(someFn)</code></dt>
+				<dd>A function which will execute a given callback with a random number as the first argument.</dd>
+			</dl>
+			
+			<p>You can click this button to trigger an AJAX call that will fetch a random number from the URL <a href="https://www.bartbusschots.ie/utils/fakerWS/numberBetween/1/text?arg1=1&arg2=100" target="_blankl" rel="noopener">https://www.bartbusschots.ie/utils/fakerWS/numberBetween/1/text?arg1=1&arg2=100</a> (must be running in a local web server for this to work) — <button class="btn btn-primary btn-sm" type="button" id="ajax_btn">Make AJAX Call</button></p>
+		</div>
+	</div>
+</main>
+
+<!-- Include Bootstrap JavaScript from CDNs -->
+<script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<!-- Include Mustache.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js" integrity="sha256-srhz/t0GOrmVGZryG24MVDyFDYZpvUH2+dnJ8FbpGi0=" crossorigin="anonymous"></script>
+
+<!-- This Page's Event handlers -->
+<script type="text/javascript">
+	// define variables used in examples
+	const peopleObjects = [
+		{
+			firstName: 'Bart',
+			surname: 'Busschots',
+			displayName: 'Bart',
+			email: 'podcasting@bartificer.net',
+			url: 'https://bartb.ie/',
+			twitter: 'bbusschots'
+		},
+		{
+			firstName: 'Allison',
+			surname: 'Sheridan',
+			displayName: 'Allison',
+			email: 'allison@podfeet.com',
+			url: 'https://www.podfeet.com/',
+			twitter: 'pod feet'
+		},
+		{
+			firstName: 'William',
+			surname: 'Butler',
+			displayName: 'Bill',
+			email: 'bill@some.tld',
+			url: 'https://www.some.tld/',
+			twitter: 'therealwb'
+		}
+	];
+	
+	// define the example functions
+	
+	// define a simple function
+	function saySomething(something){
+		showToast('Saying …', something);
+	}
+	
+	// define a simple function that takes a function
+	// an argument and executes it with a random number
+	// as the first argument.
+	function doSomethingRandom(someFn){
+		// generate a random number
+		const randNum = Math.ceil(Math.random()*100);
+		
+		// call the passed function with the random number
+		someFn(randNum);
+	}
+
+	// document ready handler
+	$(function(){
+		// add a click handler to the AJAX button
+		$('#ajax_btn').click(function(){
+			$.ajax({
+				url: 'https://www.bartbusschots.ie/utils/fakerWS/numberBetween/1/text',
+				method: 'GET',
+				cache: false,
+				data: {
+					arg1: 1,
+					arg2: 100
+				},
+				dataType: 'text',
+				success: saySomething,
+				error: function(){
+					saySomething('The AJAX Call failed 😢');
+				},
+				complete: function(){
+					saySomething('The AJAX call completed');
+				}
+			});
+		});
+	});
+	
+	// a function for popping up a toast (from PBS 73 sample solution)
+	function showToast(t, msg){
+		// fetch a copy of the template string
+		const toastTpl = $('#toast_tpl').html();
+			
+		// build a view object
+		const toastView = {
+			title: t,
+			message: msg
+		}
+			
+		// build a toast from the template with the view
+		const $toast = $(Mustache.render(toastTpl, toastView));
+			
+		// add the toast to the toast rack
+		$('#toast_rack').append($toast);
+			
+		// initialise the toast plugin on the toast
+		$toast.toast({ autohide: true, delay: 5 * 1000 });
+			
+		// add an event handler to automatically delete the toast when it hides
+		$toast.on('hidden.bs.toast', function(){
+			$(this).remove();
+		});
+			
+		// finally show the toast
+		$toast.toast('show');
+	}
+</script>
+
+</body>
+</html>

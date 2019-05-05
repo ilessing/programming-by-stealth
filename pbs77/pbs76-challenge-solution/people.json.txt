@@ -1,0 +1,43 @@
+{
+	"people": {
+		"allison": {
+			"name": {
+				"first": "Allison",
+				"last": "Sheridan"
+			},
+			"pronoun": "she",
+			"posessivePronoun": "her",
+			"contact": {
+				"email": "allison@podfeet.com",
+				"url": "https://www.podfeet.com/",
+				"twitter": "podfeet",
+				"slack": "podfeet",
+				"facebook": "https://www.facebook.com/groups/nosillacast"
+			}
+		},
+		"bart": {
+			"name": {
+				"first": "Bart",
+				"last": "Busschots"
+			},
+			"pronoun": "he",
+			"posessivePronoun": "his",
+			"contact": {
+				"email": "podcasting@bartificer.net",
+				"url": "https://bartb.ie/",
+				"twitter": "bbusschots",
+				"flickr": "bbusschots",
+				"stackOverflow": "https://stackoverflow.com/users/174985/bart-b?tab=profile"
+			}
+		}
+	},
+	"contactIcons": {
+		"email": "fas fa-at",
+		"facebook": "fab fa-facebook",
+		"flickr": "fab fa-flickr",
+		"slack": "fab fa-slack",
+		"stackOverflow": "fab fa-stack-overflow",
+		"twitter": "fab fa-twitter",
+		"url": "fas fa-link"
+	}
+}

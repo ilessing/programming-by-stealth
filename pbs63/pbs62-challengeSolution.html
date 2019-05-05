@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+        
+    <!-- Include Bootstrap 4 CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    
+    <!-- Include Font Awesome 4 -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/9437c02941.css">
+        
+    <title>PBS 62 Challenge — Alert Generator</title>
+</head>
+<body>
+<main class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <h1>PBS 62 Challenge <small class="text-muted text-nowrap">Alert Generator</small></h1>
+            <p>This page demos Bootstrap forms, alerts, and badges.</p>
+            <p>Use the form to create and dismiss alerts dyncamically, and watch the badge update with the current alert count.</p>
+        </div>
+        <fieldset class="col form" role="form" aria-labelledby="create_fm_desc">
+            <legend id="create_fm_desc">Create Alerts</legend>
+            
+            <form action="javascript:void(0);" id="create_fm">
+            
+            <div class="form-group" role="radiogroup" aria-labelledby="alert_icon_lbl">
+              <label id="alert_icon_lbl">Alert Icon</label><br>
+              <div class="form-check form-check-inline">
+                <input type="radio" name="alert_icon_rb" id="alert_icon_rb_exclamation" value="fa-exclamation-triangle" class="form-check-input">
+                <label for="alert_icon_rb_exclamation" class="form-check-label"><i class="fa fa-exclamation-triangle" aria-hidden></i><span class="sr-only">Exclamation Triangle</span></label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="radio" name="alert_icon_rb" id="alert_icon_rb_question" value="fa-exclamation-triangle" class="form-check-input">
+                <label for="alert_icon_rb_question" class="form-check-label"><i class="fa fa-question-circle" aria-hidden></i><span class="sr-only">Question Mark</span></label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="radio" name="alert_icon_rb" id="alert_icon_rb_info" value="fa-info-circle" class="form-check-input" checked>
+                <label for="alert_icon_rb_info" class="form-check-label"><i class="fa fa-info-circle" aria-hidden></i><span class="sr-only">Information Icon</span></label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="radio" name="alert_icon_rb" id="alert_icon_rb_check" value="fa-check-circle" class="form-check-input">
+                <label for="alert_icon_rb_check" class="form-check-label"><i class="fa fa-check-circle" aria-hidden></i><span class="sr-only">Check/Tick</span></label>
+              </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="alert_title_tb">Alert Title</label>
+                <input type="text" class="form-control" id="alert_title_tb" placeholder="The title for your alert">
+            </div> 
+            
+            <div class="form-group">
+                <label for="alert_body_ta">Alert Body</label>
+                <textarea class="form-control" id="alert_body_ta" placeholder="The text for the body of your alert" rows=5></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="alert_style_sel">Alert Style</label>
+                <select class="form-control" id="alert_style_sel">
+                    <option value="primary">Primary</option>
+                    <option value="secondary">Secondary</option>
+                    <option value="info" selected>Informational</option>
+                    <option value="success">Success</option>
+                    <option value="warning">Warning</option>
+                    <option value="danger">Danger</option>
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </div>
+            
+            <div class="form-group form-check">
+              <input type="checkbox" id="add_close_btn_cb" class="form-check-input" value=1 checked>
+              <label for="add_close_btn_cb" class="form-check-label">Add a close button to the alert.</label>
+            </div>
+            
+            <div class="form-group">
+              <div class="btn-group d-flex" role="group">
+                <button class="btn btn-primary w-100" id="alert_btn">
+                  Add Alert
+                  <span class="badge badge-light" id="counter_badge"></span>
+                </button>
+                <button class="btn btn-danger w-100" id="close_btn">Close All Alerts</button>
+              </div>
+            </div>
+            
+            </form>
+        </fieldset>
+    </div>
+    <div class="row">
+        <div class="col" id="insert_here"></div>
+    </div>
+</main>
+
+<!-- Include Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<!-- Add our own JavaScript code -->
+<script type="text/javascript">
+// a function to update the alert counter
+function updateCounter(){
+    // get the latest count
+    const numAlerts = $('#insert_here .alert').length;
+    
+    // either write the count, or empty the badge if there are no alerts
+    if(numAlerts > 0){
+      $('#counter_badge').text(numAlerts);
+    }else{
+      $('#counter_badge').empty();
+    }
+}
+
+// add a document ready handler
+$(function(){
+    // add an event handler to the Add button
+    $('#alert_btn').click(function(){
+        // build an empty alert
+        const $a = $('<div>').addClass(`alert alert-${$('#alert_style_sel').val()}`);
+        
+        // build the title
+        const $title = $('<h4>').addClass('alert-heading');
+        $title.text($('#alert_title_tb').val() || "A sample Alert");
+        
+        // inject the icon into the title
+        const $icon = $('<i aria-hidden>').addClass('fa mr-2');
+        $icon.addClass($('input[name=alert_icon_rb]:checked').val());
+        $title.prepend($icon);
+        
+        // inject the title with icon into the alert
+        $a.append($title);
+        
+        // build and inject the body
+        $body = $('<p>').text($('#alert_body_ta').val() || "Enter text in the text area!");
+        $a.append($body);
+        
+        // inject a dismiss button if required
+        if($('#add_close_btn_cb').prop('checked')){
+          $a.prepend($('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'));
+        }
+        
+        // tell Bootstrap to treat our new alert as an alert
+        $a.alert();
+        
+        // add a listener to the alert's closed event to update the counter
+        $a.on('closed.bs.alert', function(){
+            updateCounter();
+        });
+        
+        // inject it into the page
+        $('#insert_here').append($a);
+        
+        // update the counter
+        updateCounter();
+        
+        // reset the form
+        $('#create_fm').get(0).reset();
+    });
+    
+    // add an event handler to the close button
+    $('#close_btn').click(function(){
+        // query for all alerts in our container
+        $('#insert_here .alert').each(function(){
+            // trigger the alert jQuery plugin's close functionality
+            $(this).alert('close');
+        });
+    });
+});
+</script>
+</body>
+</html>
